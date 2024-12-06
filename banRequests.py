@@ -229,15 +229,15 @@ async def main():
     async with aiohttp.ClientSession() as session:
             tasks = []
             urls_to_process = []
-            '''
-            cacheClear = input("Xóa cache không? Y/N")
+            
+            cacheClear = input("Xóa cache không? Y/N: ")
             if cacheClear == 'y' or cacheClear == 'Y':
                 data = json.loads('["one"]')                
                 with open('completed_links.json', 'w') as json_file:
                     json.dump(data, json_file, indent=4)
             else:
                 print("Not clear cache!")                
-            '''
+            
             n = int(input("Nhập hàm cần chạy 1/2/3: "))
             
             if n==1:
