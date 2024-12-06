@@ -208,12 +208,14 @@ def check(file_path,arrLink):
 async def main():
     arrLink = []
     # Đường dẫn tới tệp Excel
-    file_path = r'D:\IT-Only\python\playw2\3webs.xlsx'  # Thay thế bằng đường dẫn của bạn
+    #file_path = r'D:\IT-Only\python\playw2\3webs.xlsx'  # Thay thế bằng đường dẫn của bạn
+    file_path = input("Nhập đường Path file Excel: ")
     shetname , arrLinks = check(file_path,arrLink)
     print(arrLinks[1])
 
     semaphore = asyncio.Semaphore(5)
-    save_dir = r"D:\IT-Only\python\playw2\anh"
+    current_path = os.getcwd()
+    save_dir = f"{current_path}\\anh"
     
     os.makedirs(save_dir, exist_ok=True)
     save_dir = save_dir.replace("\\", "\\\\")
@@ -227,7 +229,17 @@ async def main():
     async with aiohttp.ClientSession() as session:
             tasks = []
             urls_to_process = []
+            '''
+            cacheClear = input("Xóa cache không? Y/N")
+            if cacheClear == 'y' or cacheClear == 'Y':
+                data = json.loads('["one"]')                
+                with open('completed_links.json', 'w') as json_file:
+                    json.dump(data, json_file, indent=4)
+            else:
+                print("Not clear cache!")                
+            '''
             n = int(input("Nhập hàm cần chạy 1/2/3: "))
+            
             if n==1:
                 funcNeed = download_image1
                 indexUrl = 0
