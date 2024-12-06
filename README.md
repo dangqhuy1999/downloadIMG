@@ -3,7 +3,7 @@
 
 Cài đặt và Chạy môi trường ảo
 
-python -m venv venv
+`python -m venv venv`
 
 Windows: `.\venv\Scripts\activate`
 
