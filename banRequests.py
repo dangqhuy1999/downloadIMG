@@ -209,7 +209,7 @@ async def main():
     arrLink = []
     # Đường dẫn tới tệp Excel
     #file_path = r'D:\IT-Only\python\playw2\3webs.xlsx'  # Thay thế bằng đường dẫn của bạn
-    file_path = input("Nhập đường Path file Excel: ")
+    file_path = input("Nhập đường dẫn file Excel: ")
     shetname , arrLinks = check(file_path,arrLink)
     print(arrLinks[1])
 
