@@ -11,11 +11,11 @@ Linux: `source venv\bin\activate`
 
 ## Cài thư viện trong venv: 
 	
- 	Nếu bạn là người mới thì chạy phần này:
+ 	Nếu bạn là người dùng thì chạy phần này:
 
 	pip install -r requirements.txt
 
-	Nếu bạn code xong rồi cầnexport ra hướng dẫn cho người dùng :
+	Nếu bạn là dev vừa code xong --> cần export ra hướng dẫn cho người dùng :
 
 	pip freeze > requirements.txt
 ===================
