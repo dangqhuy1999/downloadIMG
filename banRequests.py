@@ -31,8 +31,8 @@ async def download_image1(session, code, url, save_dir, semaphore):
                                 html_content = await new_response.text()
                                 tree = html.fromstring(html_content)
                                 imgs = tree.xpath("//div[@class='col-image-15']/a")
-                                print(number)
-                                print(newUrl)
+                                #print(number)
+                                #print(newUrl)
                                 data_img = imgs[int(number)-1].get('href')
                                 
                                 # Tải và lưu hình ảnh
@@ -42,7 +42,7 @@ async def download_image1(session, code, url, save_dir, semaphore):
                                         # Lưu hình ảnh vào tệp
                                         with open(f"{save_dir}{code}.jpg", "wb") as file:
                                              file.write(image_content)
-                                        print(f"Hình ảnh đã được lưu tại: D:\\IT-Only\\python\\playw2\\anh\\midamericacomponents\\{code}.jpg")
+                                        print(f"Hình ảnh đã được lưu tại: {save_dir}{code}.jpg")
                                         return True
                                     else:
                                         print(f"Lỗi khi tải hình ảnh: {img_response.status}")
@@ -129,7 +129,7 @@ async def download_image3(session, code, url, save_dir, semaphore):
                                 with open(f"{save_dir}{code}.jpg", "wb") as file:
                                     file.write(image_content)
                                 
-                                print(f"Hình ảnh đã được lưu tại: D:\IT-Only\python\playw2\anh\OSI\{code}.jpg")
+                                print(f"Hình ảnh đã được lưu tại: {save_dir}{code}.jpg")
                                 return True
                             else:
                                 print(f"Lỗi khi tải hình ảnh: {img_response.status}")
@@ -183,11 +183,11 @@ def check(file_path,arrLink):
         try:
             # Lặp qua từng sheet trong workbook
             for sheet_name in workbook.sheetnames:
-                print(f"Đang kiểm tra sheet: {sheet_name}")
+                #print(f"Đang kiểm tra sheet: {sheet_name}")
                 shetname.append(sheet_name)
                 sheet = workbook[sheet_name]
                 # In số lượng hàng và cột
-                print(f"Số lượng hàng: {sheet.max_row}, Số lượng cột: {sheet.max_column}")
+                #print(f"Số lượng hàng: {sheet.max_row}, Số lượng cột: {sheet.max_column}")
                 # Lặp qua các hàng và in nội dung
                 arrLinks= {}
                 for row_index, row in enumerate(sheet.iter_rows(values_only=True)):
@@ -195,7 +195,7 @@ def check(file_path,arrLink):
                         continue
                     arrLinks[f"{row[0]}"] = row[3]
                     #print(row)  # In ra từng hàng
-                print(f"{arrLinks}")
+                #print(f"{arrLinks}")
                 arrLink.append(arrLinks)
 
         finally:
@@ -211,7 +211,7 @@ async def main():
     #file_path = r'D:\IT-Only\python\playw2\3webs.xlsx'  # Thay thế bằng đường dẫn của bạn
     file_path = input("Nhập đường dẫn file Excel: ")
     shetname , arrLinks = check(file_path,arrLink)
-    print(arrLinks[1])
+    #print(arrLinks[1])
 
     semaphore = asyncio.Semaphore(5)
     current_path = os.getcwd()
