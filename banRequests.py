@@ -40,7 +40,7 @@ async def download_image1(session, code, url, save_dir, semaphore):
                                     if img_response.status == 200:
                                         image_content = await img_response.read()  # Đọc nội dung hình ảnh
                                         # Lưu hình ảnh vào tệp
-                                        with open(f"D:\\IT-Only\\python\\playw2\\anh\\midamericacomponents\\{code}.jpg", "wb") as file:
+                                        with open(f"{save_dir}{code}.jpg", "wb") as file:
                                              file.write(image_content)
                                         print(f"Hình ảnh đã được lưu tại: D:\\IT-Only\\python\\playw2\\anh\\midamericacomponents\\{code}.jpg")
                                         return True
@@ -93,7 +93,7 @@ async def download_image2(session,codex, url,save_dir, semaphore):
                 font = ImageFont.load_default()  # Sử dụng font mặc định
 
                 # Lưu hình ảnh
-                image.save(f"D:\\IT-Only\\python\\playw2\\anh\\WheretobuyOSI\\{codex}.jpg")
+                image.save(f"{save_dir}{codex}.jpg")
                 await browser.close()
                 return True
         except Exception  as e:
@@ -126,10 +126,10 @@ async def download_image3(session, code, url, save_dir, semaphore):
                             if img_response.status == 200:
                                 image_content = await img_response.read()  # Đọc nội dung hình ảnh
                                 # Lưu hình ảnh vào tệp
-                                with open(f"D:\\IT-Only\\python\\playw2\\anh\\OSI\\{code}.jpg", "wb") as file:
+                                with open(f"{save_dir}{code}.jpg", "wb") as file:
                                     file.write(image_content)
                                 
-                                print(f"Hình ảnh đã được lưu tại: D:\IT-Only\python\playw2\anh\OSI/{code}.jpg")
+                                print(f"Hình ảnh đã được lưu tại: D:\IT-Only\python\playw2\anh\OSI\{code}.jpg")
                                 return True
                             else:
                                 print(f"Lỗi khi tải hình ảnh: {img_response.status}")
@@ -179,10 +179,12 @@ def check(file_path,arrLink):
         print("Tệp Excel đã tồn tại. Đang mở tệp...")
         # Mở tệp Excel
         workbook = openpyxl.load_workbook(file_path)
+        shetname  = []
         try:
             # Lặp qua từng sheet trong workbook
             for sheet_name in workbook.sheetnames:
                 print(f"Đang kiểm tra sheet: {sheet_name}")
+                shetname.append(sheet_name)
                 sheet = workbook[sheet_name]
                 # In số lượng hàng và cột
                 print(f"Số lượng hàng: {sheet.max_row}, Số lượng cột: {sheet.max_column}")
@@ -201,19 +203,21 @@ def check(file_path,arrLink):
             workbook.close()
     else:
         print("Tệp Excel không tồn tại.")
-    return arrLink
+    return shetname, arrLink
     
 async def main():
     arrLink = []
     # Đường dẫn tới tệp Excel
     file_path = r'D:\IT-Only\python\playw2\3webs.xlsx'  # Thay thế bằng đường dẫn của bạn
-    arrLinks = check(file_path,arrLink)
+    shetname , arrLinks = check(file_path,arrLink)
     print(arrLinks[1])
 
     semaphore = asyncio.Semaphore(5)
     save_dir = r"D:\IT-Only\python\playw2\anh"
+    
     os.makedirs(save_dir, exist_ok=True)
-   
+    save_dir = save_dir.replace("\\", "\\\\")
+    
     completed = set()
 
     # Đọc tệp trạng thái nếu có
@@ -227,12 +231,23 @@ async def main():
             if n==1:
                 funcNeed = download_image1
                 indexUrl = 0
+                save_dir = save_dir+ "\\\\" + shetname[0] + "\\\\"
+                save_dirx = save_dir.replace("\\\\", "\\")
+                os.makedirs(save_dirx, exist_ok=True)
             elif n==2:
                 funcNeed = download_image2
-                indexUrl = 1    
+                indexUrl = 1
+                save_dir =save_dir+ "\\\\" + shetname[1] + "\\\\"                
+                save_dirx = save_dir.replace("\\\\", "\\")
+                os.makedirs(save_dirx, exist_ok=True)
             elif n==3:
                 funcNeed = download_image3
                 indexUrl = 2
+                save_dir = save_dir+ "\\\\" + shetname[2] + "\\\\"
+                
+                save_dirx = save_dir.replace("\\\\", "\\")
+                os.makedirs(save_dirx, exist_ok=True)
+            n=input(save_dir)
             for code , url in arrLinks[indexUrl].items():
                 if url not in completed:
                     tasks.append(funcNeed(session,code, url,save_dir, semaphore))
